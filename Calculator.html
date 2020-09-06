@@ -1,0 +1,204 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Calculator</title>
+    <meta ID="description" content="">
+    <meta ID="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <style>
+        #output {
+            height: 45px;
+            background-color: black;
+            color: aqua;
+            width: 100%;
+            font-size: 2em;
+            padding: 5px;
+            text-align: right;
+            margin-bottom: 25px;
+            overflow: hidden;
+            box-shadow: 1px 5px 5px rgba(0, 0, 0, 0.4);
+            transition: 0.7s;
+        }
+        #output:hover{
+                box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.6);
+            }
+             #mycal {
+            width: 350px;
+            background-color: dimgray;
+            height: 350px;
+            padding: 5px;
+            box-shadow: 1px 5px 5px rgba(0, 0, 0, 0.4);
+            transition: 0.7s;
+        }
+            #mycal:hover{
+                box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.7);
+            }
+        .cbutton {
+            font-size: 2em;
+            width: 40px;
+            margin: 4px;
+            padding: 4px;
+            box-shadow: 1px 5px 5px rgba(0, 0, 0, 0.4);
+            transition: 0.3s;
+        }
+        .cbutton:hover{
+                box-shadow: 1px 7px 7px rgba(0, 0, 0, 0.7);
+            }
+        .container {
+            padding: 25px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="mycal">
+            <div class="col-xs-12">
+                <div id="output"></div>
+                <div class="col-xs-12">
+                    <div class="btn btn-primary cbutton">1</div>
+                    <div class="btn btn-primary cbutton">2</div>
+                    <div class="btn btn-primary cbutton">3</div>
+                    <div class="btn btn-primary cbutton">+</div>
+                    <div class="btn btn-primary cbutton">C</div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="btn btn-primary cbutton">4</div>
+                    <div class="btn btn-primary cbutton">5</div>
+                    <div class="btn btn-primary cbutton">6</div>
+                    <div class="btn btn-primary cbutton">-</div>
+                    <div class="btn btn-primary cbutton">D</div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="btn btn-primary cbutton">7</div>
+                    <div class="btn btn-primary cbutton">8</div>
+                    <div class="btn btn-primary cbutton">9</div>
+                    <div class="btn btn-primary cbutton">*</div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="btn btn-primary cbutton">.</div>
+                    <div class="btn btn-primary cbutton">0</div>
+                    <div class="btn btn-primary cbutton">=</div>
+                    <div class="btn btn-primary cbutton">/</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        var ctbutton = document.getElementsByClassName('cbutton');
+        var myOutput = document.getElementById('output');
+        var myCal = '';
+        var myCom = false;
+        var mySign = false;
+        var mySwitch = false;
+        var myOpe = ['+','-','*','/'];
+        var value;
+        var value1;
+    
+
+        for(var i=0; i<ctbutton.length;i++){
+            ctbutton[i].addEventListener('click', function(){
+                
+                value = myOutput.innerHTML;
+                
+
+                var myValue = this.innerHTML;
+                
+                if(myCom || myCal=='0'){
+                    myCom = false;
+                    myCal='';
+                }
+
+                if(mySign){
+                    mySign = false;
+                }
+                
+                /*value1 = value.substr(value.indexOf('+') + 1);
+                value2 = value.substr(value.indexOf('-') + 1);
+
+                if((value1.indexOf('.') > -1 && myValue == '.') || (value2.indexOf('.') > -1 && myValue == '.')){
+                    myValue = '';
+                }*/
+
+                // value1 = value.substr(value.indexOf('-') + 1) || value.substr(value.indexOf('+') + 1);
+                // value2 = value.substr(value.indexOf('*') + 1) || value.substr(value.indexOf('/') + 1);
+
+                value1 = value.substr(value.indexOf('+') + 1);
+                value2 = value.substr(value.indexOf('-') + 1);
+                console.log(value1);
+
+                if((value1.indexOf('.') > -1 && myValue == '.') && (value2.indexOf('.') > -1 && myValue == '.')){
+                    myValue = '';
+                } 
+                // else if(value2.indexOf('.') > -1 && myValue == '.'){
+                //     myValue = '';
+                // }
+                    
+
+                if(myValue=='+' || myValue=='-' || myValue=='*' || myValue=='/'){
+                   
+                    
+                    if(mySwitch){
+                        mySwitch = false;
+                        
+                        if(myOpe.indexOf(myOutput.innerHTML.slice(-1))>-1){
+                            myCal = myCal.substring(0, myCal.length-1);
+                        } else{
+                            myCal = eval(myCal);
+                        }
+                    }
+
+                    mySwitch = true;
+                }
+
+                
+
+                if(myValue == '='){
+                    
+                    if(myCal!=''){
+                        if(myOpe.indexOf(myOutput.innerHTML.slice(-1)) == -1){
+                            myCal = eval(myCal);
+                        
+                        }
+                        
+                    }else{
+                        myOutput.innerHTML = '';
+                        
+                    }
+                }
+
+                else if(myValue == 'C'){
+                    myCal = '';
+                    myCom = true;
+
+                }
+
+                // else if(value.indexOf('.') > -1 && myValue == '.'){
+                //     myValue = '';                        
+                // }
+
+                else if(value.slice(-1) == '.' && myValue == '.'){
+                    myValue = '';                        
+                }
+
+                
+
+                else if(myValue == 'D'){
+                    myCal = myCal.slice(0,-1);
+                    
+                } else{
+                    myCal = myCal + myValue;
+                }
+                
+                
+                myOutput.innerHTML = myCal;
+            });
+        }
+        
+    
+    </script>
+</body>
+</html>
